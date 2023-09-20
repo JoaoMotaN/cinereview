@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cinereview/app/components/nav_bar.dart';
 import 'package:cinereview/app/data/http/http_client.dart';
 import 'package:cinereview/app/data/models/info_model.dart';
@@ -25,13 +26,24 @@ class _HomePageState extends State<HomePage> {
     repository: MoviesRepository(
       client: HttpClient(),
     ),
+    usersRepository: UsersRepository(
+      auth: AuthService(),
+    ),
   );
 
   late UsersInfo info;
 
   void getInfo() async {
-    info = (await UsersRepository(auth: context.read<AuthService>()).readInfo())!;
+    info =
+        (await UsersRepository(auth: context.read<AuthService>()).readInfo())!;
     store.loadHomepage(info.favGenre);
+  }
+
+  Future<void> getPersonalPlaylist() async {
+    await UsersRepository(
+      auth: context.read<AuthService>(),
+    ).getPersonalPlaylist();
+    store.getPersonalPlaylist();
   }
 
   void logout() async {
@@ -89,6 +101,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 64, left: 24, right: 24),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const HeaderSection(),
                     Container(height: 32),
@@ -98,6 +111,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Container(height: 16),
                     const CategorySection(),
+                    Container(height: 16),
                     Container(height: 48),
                     MovieGalery(
                       movies: store.moviesByGender.value,

@@ -102,6 +102,16 @@ class _MovieDetailsState extends State<MovieDetails> {
     });
   }
 
+  Future<void> addPersonalPlaylist() async {
+    await UsersRepository(
+      auth: context.read<AuthService>(),
+    ).addPersonalPlaylist(
+      movie.id,
+      movie.title,
+      movie.posterPath,
+    );
+  }
+
   Future<void> getIsFavorite() async {
     final response = await UsersRepository(
       auth: context.read<AuthService>(),
@@ -156,21 +166,39 @@ class _MovieDetailsState extends State<MovieDetails> {
                           IconButton(
                             icon:
                                 const Icon(PhosphorIcons.arrow_left, size: 32),
-                            onPressed: goFoward,
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
                           ),
-                          IconButton(
-                            icon: isFavorite
-                                ? const Icon(
-                                    PhosphorIcons.heart_fill,
-                                    size: 32,
-                                    color: ProjectColors.pink,
-                                  )
-                                : const Icon(
-                                    PhosphorIcons.heart,
-                                    size: 32,
-                                    color: Colors.white,
-                                  ),
-                            onPressed: saveFavorite,
+                          Row(
+                            children: [
+                              IconButton(
+                                tooltip: 'Adicionar a sua playlist',
+                                icon: const Icon(
+                                  Icons.add_rounded,
+                                  size: 32,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () async {
+                                  await addPersonalPlaylist();
+                                },
+                              ),
+                              IconButton(
+                                tooltip: 'Favoritar filme',
+                                icon: isFavorite
+                                    ? const Icon(
+                                        PhosphorIcons.heart_fill,
+                                        size: 32,
+                                        color: ProjectColors.pink,
+                                      )
+                                    : const Icon(
+                                        PhosphorIcons.heart,
+                                        size: 32,
+                                        color: Colors.white,
+                                      ),
+                                onPressed: saveFavorite,
+                              ),
+                            ],
                           ),
                         ],
                       ),

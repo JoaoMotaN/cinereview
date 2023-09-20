@@ -2,6 +2,7 @@ import 'package:cinereview/app/pages/account/account_page.dart';
 import 'package:cinereview/app/pages/category/category_page.dart';
 import 'package:cinereview/app/pages/favorites/favorites_page.dart';
 import 'package:cinereview/app/pages/home/home_page.dart';
+import 'package:cinereview/app/pages/home/playlist_page.dart';
 import 'package:cinereview/app/pages/login/login_page.dart';
 import 'package:cinereview/app/pages/movieDetails/movie_details.dart';
 import 'package:cinereview/app/pages/register/resgister_page.dart';
@@ -41,6 +42,7 @@ class App extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
+        '/playlist': (context) => const PlaylistPage(),
         '/favorites': (context) => const FavoritesPage(),
         '/reviews': (context) => const ReviewsPage(),
         '/account': (context) => const AccountPage(),

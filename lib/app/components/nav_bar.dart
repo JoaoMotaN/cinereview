@@ -17,13 +17,17 @@ class NavBar extends StatelessWidget {
         }
       case 1:
         {
-          Navigator.pushNamed(_context, '/favorites');
+          Navigator.pushNamed(_context, '/playlist');
         }
       case 2:
         {
-          Navigator.pushNamed(_context, '/reviews');
+          Navigator.pushNamed(_context, '/favorites');
         }
       case 3:
+        {
+          Navigator.pushNamed(_context, '/reviews');
+        }
+      case 4:
         {
           Navigator.pushNamed(_context, '/account');
         }
@@ -47,6 +51,15 @@ class NavBar extends StatelessWidget {
               color: Colors.white,
             ),
             label: 'Home',
+            selectedIcon: GradientIcon(
+                PhosphorIcons.house_fill, 24, ProjectColors.primaryGradient),
+          ),
+          NavigationDestination(
+            icon: Icon(
+              PhosphorIcons.playlist,
+              color: Colors.white,
+            ),
+            label: 'Playlist',
             selectedIcon: GradientIcon(
                 PhosphorIcons.house_fill, 24, ProjectColors.primaryGradient),
           ),

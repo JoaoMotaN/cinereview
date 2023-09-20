@@ -71,6 +71,129 @@ class UsersRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<Map<String, String>>> getPersonalPlaylist() async {
+    final DocumentReference document =
+        db.doc('users/${auth.user!.uid}/personalPlaylist/${auth.user!.uid}');
+
+    try {
+      final DocumentSnapshot snapshot = await document.get();
+      final data = snapshot.data() as Map<String, dynamic>?;
+
+      if (data != null && data.containsKey('playlist')) {
+        final List<Map<String, String>> playlist =
+            (data['playlist'] as List<dynamic>)
+                .whereType<Map<String, dynamic>>()
+                .map<Map<String, String>>((item) {
+          return {
+            'movieId': item['movieId'].toString(),
+            'movieName': item['movieName'].toString(),
+            'posterPath': item['posterPath'].toString(),
+          };
+        }).toList();
+
+        return playlist;
+      }
+    } catch (e) {
+      debugPrint("Error: $e");
+    }
+    return [];
+  }
+
+  Future<void> addPersonalPlaylist(
+      int movieId, String movieName, String posterPath) async {
+    final DocumentReference document =
+        db.doc('users/${auth.user!.uid}/personalPlaylist/${auth.user!.uid}');
+    try {
+      final DocumentSnapshot snapshot = await document.get();
+      final data = snapshot.data();
+      List<dynamic> playlist = [];
+
+      if (data != null && data is Map<String, dynamic>) {
+        if (data.containsKey('playlist')) {
+          playlist = List.from(data['playlist']);
+        }
+      }
+
+      final index = playlist.indexWhere((item) => item['movieId'] == movieId);
+
+      if (index == -1) {
+        playlist.add({
+          'movieId': movieId,
+          'movieName': movieName,
+          'posterPath': posterPath,
+        });
+      } else {
+        playlist.removeAt(index);
+      }
+
+      await document.set({'playlist': playlist});
+    } catch (e) {
+      debugPrint("Error: $e");
+    }
+  }
+
+  Future<void> updatePersonalPlaylist(
+    int index,
+    String movieId,
+    String movieName,
+    String posterPath,
+  ) async {
+    final DocumentReference document =
+        db.doc('users/${auth.user!.uid}/personalPlaylist/${auth.user!.uid}');
+    try {
+      final DocumentSnapshot snapshot = await document.get();
+      final data = snapshot.data();
+      List<dynamic> playlist = [];
+
+      if (data != null && data is Map<String, dynamic>) {
+        if (data.containsKey('playlist')) {
+          playlist = List.from(data['playlist']);
+        }
+      }
+
+      if (index != -1) {
+        playlist[index] = ({
+          'movieId': movieId,
+          'movieName': movieName,
+          'posterPath': posterPath,
+        });
+      }
+
+      await document.update({'playlist': playlist});
+    } catch (e) {
+      debugPrint("Error: $e");
+    }
+  }
+
+  Future<void> deleteItemPlaylist(
+    int index,
+    String movieId,
+    String movieName,
+    String posterPath,
+  ) async {
+    final DocumentReference document =
+        db.doc('users/${auth.user!.uid}/personalPlaylist/${auth.user!.uid}');
+    try {
+      final DocumentSnapshot snapshot = await document.get();
+      final data = snapshot.data();
+      List<dynamic> playlist = [];
+
+      if (data != null && data is Map<String, dynamic>) {
+        if (data.containsKey('playlist')) {
+          playlist = List.from(data['playlist']);
+        }
+      }
+
+      if (index != -1) {
+        playlist.removeAt(index);
+      }
+
+      await document.update({'playlist': playlist});
+    } catch (e) {
+      debugPrint("Error: $e");
+    }
+  }
+
   Future<bool> isFavorite(String movieId) async {
     final DocumentReference document =
         db.doc('users/${auth.user!.uid}/favorites/${auth.user!.uid}');
