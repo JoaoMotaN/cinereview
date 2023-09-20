@@ -229,7 +229,7 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ),
       ),
-      bottomNavigationBar: NavBar(context, 3),
+      bottomNavigationBar: NavBar(context, 4),
     );
   }
 }

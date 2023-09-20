@@ -130,7 +130,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           }
         },
       ),
-      bottomNavigationBar: NavBar(context, 1),
+      bottomNavigationBar: NavBar(context, 2),
     );
   }
 }

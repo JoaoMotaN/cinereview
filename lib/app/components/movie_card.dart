@@ -26,7 +26,7 @@ class _MovieCardState extends State<MovieCard> {
       context,
       '/movie/info',
       arguments: {'movie': widget.movie},
-    );
+    ).then((value) => setState(() {}));
   }
 
   @override

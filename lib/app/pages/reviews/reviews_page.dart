@@ -315,7 +315,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
               );
             }
           }),
-      bottomNavigationBar: NavBar(context, 2),
+      bottomNavigationBar: NavBar(context, 3),
     );
   }
 }
