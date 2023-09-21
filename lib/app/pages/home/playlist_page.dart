@@ -76,6 +76,15 @@ class _PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
+  void showSnackBar(String message, bool erro) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: erro ? ProjectColors.pink : Colors.green[800],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,6 +229,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                                 if (mounted) {
                                                   Navigator.pop(context);
                                                 }
+                                                showSnackBar(
+                                                    'Filme atualizado com sucesso!',
+                                                    false);
                                                 await store
                                                     .getPersonalPlaylist();
                                               },
@@ -248,6 +260,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                   store.isLoading.value = false;
                                   await Future.delayed(Duration.zero);
                                   setState(() {});
+                                  showSnackBar('Filme removido!', true);
                                   await store.getPersonalPlaylist();
                                 },
                                 icon: Icon(

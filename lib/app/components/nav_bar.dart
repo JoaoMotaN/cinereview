@@ -61,7 +61,7 @@ class NavBar extends StatelessWidget {
             ),
             label: 'Playlist',
             selectedIcon: GradientIcon(
-                PhosphorIcons.house_fill, 24, ProjectColors.primaryGradient),
+                PhosphorIcons.playlist, 24, ProjectColors.primaryGradient),
           ),
           NavigationDestination(
             icon: Icon(PhosphorIcons.heart),
@@ -95,3 +95,4 @@ class NavBar extends StatelessWidget {
     );
   }
 }
+
